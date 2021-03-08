@@ -1,0 +1,36 @@
+
+body {
+    background-color: beige;
+}
+
+.bit-btn {
+    width: 100%;
+    background-color: blanchedalmond;
+    color: darkgoldenrod;
+}
+
+.decimal-text {
+    text-align: center;
+    font-size: 1.5em;
+    color: yellow;
+    /* font-weight: 100; */
+    background-color: darkviolet;
+}
+
+.binary-row {
+    /* min-width: 637px; */
+}
+
+.sticky-bottom {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+
+/* #bit-btn div { */
+/*     /\* width: 100px; *\/ */
+/*     /\* height: 100px; *\/ */
+/*     color: black; */
+/*     background-color: bisque; */
+/*     outline: 3px solid #999; */
+/* } */

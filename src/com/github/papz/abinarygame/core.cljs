@@ -7,7 +7,6 @@
             [goog.events.EventType]
             [goog.dom :as dom]))
 
-(declare level-stepper game-speed)
 
 (def app-el (dom/getElement "app"))
 

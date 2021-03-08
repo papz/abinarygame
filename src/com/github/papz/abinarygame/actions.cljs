@@ -1,6 +1,8 @@
 (ns com.github.papz.abinarygame.actions
   (:require [com.github.papz.abinarygame.state :as state]))
 
+(declare level-stepper game-speed)
+
 ;; Todo
 (defn gen-binary-solution
   ""
@@ -45,7 +47,8 @@
   []
   (def level-stepper (js/setInterval
                       (fn [] (do
-                               (swap! state/binary-problems update :problems conj (generate-problem))))                            
+                               (swap! state/binary-problems update :problems conj (generate-problem))))
+                               ;; (js/console.log (str "update - " @state/binary-problems))))                            
                       state/game-speed)))
 
 ;; Is this the right Event handler to use? do I use closures

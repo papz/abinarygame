@@ -61,7 +61,7 @@
   (html [:div.container [:div.row.justify-content-center
                          [:div.col.md-6 [:h1 "It's The Binary Game 👘"]]
                          [:div.col.md-6 (start-button) (pause-button) (faster-button)]]
-         [:quote "Not quite like Jumanji or 🍳 🐇's"]]
-         ;; (grid-view binary-problems binary-problem-view)]
+         [:quote "Not quite like Jumanji or 🍳 🐇's"]
+         (grid-view binary-problems binary-problem-view)]
         (html [:div.container.sticky-bottom [:footer.footer [:div (cheat-button)]]])))
 

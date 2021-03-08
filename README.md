@@ -25,6 +25,7 @@ Then go to `https://localhost:8080`
  - Solve the game, and clear row - done 'with excitement' - not done
  - Keep a count of solutions, introduce points
  - bug- the game reorders the list
+ - create a release build for Github pages
  - add 'guard rails' button to add table headers of bit values ex. 128
  - write a description of what the game is about - in a modal
  - add watchers that rerender passing in state

@@ -17,10 +17,6 @@
          problem-decimal (rand-int 256)
          solution (gen-binary-solution problem-decimal)
          problem-binary (gen-binary-problem 1 (into [] solution))]
-     (println "88888" (last (keys {rand-uuid
-                                   {:problem-decimal problem-decimal
-                                    :problem-binary problem-binary
-                                    :solution solution}})))
      {rand-uuid
       {:problem-decimal problem-decimal
        :problem-binary problem-binary
@@ -50,7 +46,6 @@
   ""
   ([]
    (let [solved-problem (first @binary-problems)]
-     (js/console.log "solved problem!!")
      (swap! @binary-problems (dissoc solved-problem))))
   ([problem-row]))
 
@@ -134,7 +129,7 @@
   (def level-stepper (js/setInterval
                       (fn [] (do
                                (swap! binary-problems update :problems conj (generate-problem))
-                               (js/console.log "bin probs" @binary-problems) (render)))
+                               (render)))
                       game-speed)))
 
 ;; Is this the right Event handler to use? do I use closures
@@ -150,8 +145,8 @@
   (let [game-id (.getAttribute e "data-bit-problem")
         bit-idx (.getAttribute e "data-bit-pos")
         bit-val (.getAttribute e "data-bit-val")]
-    (js/console.log (str "i have a game" game-id))
-    (js/console.log (str "get the game" (get (:problems @binary-problems) game-id)))
+
+
     (js/console.log (str
                      "you changed the idx 777"
                      (get (:problems @binary-problems) bit-idx)
@@ -182,15 +177,13 @@
       "cheat-btn" (cheat)
       "begin-btn" (begin-game)
       "pause-btn" (pause-game)
-      "bit-btn" (user-turn (aget e "target"))
-      (js/console.log "oh"))))
+      "bit-btn" (user-turn (aget e "target")))))
+
 
 ;; can we do better than a for
 (defn grid-view
   ""
   []
-  (js/console.log (str "problemoo" (:problems @binary-problems)))
-  (js/console.log (str "problemoo type" (:problems @binary-problems)))
   (html [:div.contianer-fluid [:div.container
                                (for [x (:problems @binary-problems)]
                                  [:div.row.binary-row
@@ -243,14 +236,7 @@
 
   (js/console.log "eeek"))
 
-;; can't just set the html here, when it's not there yet, unless the script is loaded at the end.
-;; (set! (.-innerHTML (.getElementById js/document "result")) "waat"))
-
-;; (set! (.-write "updating HTMl stream")
-;; how to refer to this?
-
 ;; (.appendChild (.getElementById js/document "app")  (html [:span {:class "foo"} "bar"])))
-
 
 ;; (let [container (js/document.createElement "div")]
 ;;   (js/document.addElement)))
@@ -277,12 +263,6 @@
   (render))
 
 ;; add Listeners - defined once
-;;(goog-log/abinarygame (str "dom should appear" (dom/getElement "app")))
-;;(goog-log/abinarygame (str "2222" (gen-binary-problem 1 [1 1 1 1 1 1 1])))
-;; (goog-log/abinarygame (str "3333 key is" (:key (generate-problem 1))))
-;; (goog-log/abinarygame (str "3333 key is" (keys (generate-problem 1))))
-;;(goog-log/abinarygame (str "5555 key is" (get (generate-problem 1) 52)))
-;; (goog-log/abinarygame (str "5555 prob dec is" (:problem-decimal (get (generate-problem 1) 52)))))
 
 ;; then add a watch
 

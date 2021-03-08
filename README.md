@@ -6,6 +6,8 @@
   After translating 4 problems, you score the opportunity to access that IPv4 web address.  Amazing!
   
   This is an enjoyable learning [Phase1 Project](https://github.com/oakmac/professional-clojurescript-curriculum/blob/master/exercises/phase1-project.md "Professional Clojurescript - Phase1 Project") from [Professional Clojurescript](https://cljs.pro/).
+  
+  You can [Play the Game Now](https://papz.github.io/abinarygame/).
 
 # Requirements #
 

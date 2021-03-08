@@ -47,8 +47,8 @@
   []
   (def level-stepper (js/setInterval
                       (fn [] (do
-                               (swap! state/binary-problems update :problems conj (generate-problem))))
-                               ;; (js/console.log (str "update - " @state/binary-problems))))                            
+                               (swap! state/binary-problems update :problems conj (generate-problem))
+                               (js/console.log (str "update - " @state/binary-problems))))                            
                       state/game-speed)))
 
 ;; Is this the right Event handler to use? do I use closures
@@ -78,8 +78,8 @@
            (get-in @state/binary-problems [:problems game-id :solution]))
       (do
         (js/alert (str "winner winner chicken dinner" game-id))
-        (swap! state/binary-problems update-in [:problems] (fn [h] (dissoc h game-id)))))))
-        ;; (js/console.log (str "the board" @state/binary-problems))))))
+        (swap! state/binary-problems update-in [:problems] (fn [h] (dissoc h game-id)))
+        (js/console.log (str "the board" @state/binary-problems))))))
     ;; (render)))
 
 (defn update-game

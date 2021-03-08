@@ -111,3 +111,7 @@
 
  Mon 08 Mar 2021 17:50:17
  how to refer to this?
+ 
+ Mon 08 Mar 2021 22:20:16
+ The namespacing is forcing me to know what I'm doing(need a watch) and to rearchitect the program more sensibly
+ I know I'll have to handle state a lot better, and using it to generate views could be a lot simpler

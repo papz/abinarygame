@@ -37,15 +37,18 @@
 (defonce init-listeners!
   (do
     (events/listen app-el "click" actions/update-game)
+    (add-watch state/binary-problems :grid (fn [key, ref, old, new]
+                                             (if (not= old new)
+                                              (render))))
     (actions/begin-game)))
 
-;; should pass in state
+;; should pass in state?
 (defn render
   ""
   []
   ;; 1. mount app on to HTML - could be better way
   (set! (.-innerHTML (.getElementById js/document "app"))
-        (view/app-template state/binary-problems)))
+        (view/app-template @state/binary-problems)))
 
 (defn main!
   "The entry point to whack your fruit"

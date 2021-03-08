@@ -276,6 +276,14 @@
   []
   (render))
 
+;; add Listeners - defined once
+;;(goog-log/abinarygame (str "dom should appear" (dom/getElement "app")))
+;;(goog-log/abinarygame (str "2222" (gen-binary-problem 1 [1 1 1 1 1 1 1])))
+;; (goog-log/abinarygame (str "3333 key is" (:key (generate-problem 1))))
+;; (goog-log/abinarygame (str "3333 key is" (keys (generate-problem 1))))
+;;(goog-log/abinarygame (str "5555 key is" (get (generate-problem 1) 52)))
+;; (goog-log/abinarygame (str "5555 prob dec is" (:problem-decimal (get (generate-problem 1) 52)))))
+
 ;; then add a watch
 
 (defn ^:dev/after-load start

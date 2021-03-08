@@ -1,4 +1,4 @@
-(ns com.github.papz.whack.glogger
+(ns com.github.papz.abinarygame.glogger
   (:require
    [goog.log :as goog-log]
    [goog.debug.Console :as Console])
@@ -7,9 +7,10 @@
 
 ;; https://google.github.io/closure-library/api/goog.log.html
 ;; https://lambdaisland.com/blog/2019-06-10-goog-log
+
 (.setCapturing (Console.) true)
 
-(defn wack-logger
+(defn abinarygame
   ""
   ([]
    (goog-log/warning (goog-log/getLogger "com.github.papz.whack.glogger") "No info, ta!"))

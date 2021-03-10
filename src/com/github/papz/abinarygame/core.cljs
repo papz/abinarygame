@@ -1,10 +1,12 @@
 (ns com.github.papz.abinarygame.core
+  (:require-macros [hiccups.core :as hiccups :refer [html]])
   (:require [com.github.papz.abinarygame.glogger :as goog-log]
             [com.github.papz.abinarygame.view :as view]
             [com.github.papz.abinarygame.actions :as actions]
             [com.github.papz.abinarygame.state :as state]
             [goog.events :as events]
             [goog.functions :as gfunctions]
+            [hiccups.runtime :as hiccupsrt]
             [goog.events.EventType]
             [goog.dom :as dom]
             [oops.core :refer [ocall oset!]]))
@@ -21,7 +23,8 @@
 (defn render!
   "update the innerHTML of the application"
   []
-  (oset! app-el "innerHTML" (view/app-template @state/binary-problems)))
+  (let [app-html (html (view/AppTemplate @state/binary-problems))]
+    (oset! app-el "innerHTML" app-html)))
 
 (def init-listeners!
   (gfunctions/once

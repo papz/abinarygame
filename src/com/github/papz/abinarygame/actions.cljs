@@ -19,7 +19,7 @@
     (recur (inc n) (assoc x (rand (count x)) ""))))
 
 (defn generate-problem
-  ""
+  "creates a binary problem row"
   ([]
    (let [rand-uuid (str (random-uuid))
          problem-decimal (rand-int 256)
@@ -69,26 +69,31 @@
 (defn user-turn
   ""
   [e]
-  (let [game-id (.getAttribute e "data-bit-problem")
-        bit-idx (.getAttribute e "data-bit-pos")
+  (let [problem-id (.getAttribute e "data-bit-problem-id")
+        pos-idx (int (.getAttribute e "data-bit-pos-idx"))
         bit-val (.getAttribute e "data-bit-val")]
-    (js/console.log (str
-                     "you changed the idx 777"
-                     (get (:problems @state/binary-problems) bit-idx)
-                     "-data-bit-pos" bit-idx))
+    ; (js/console.log (str
+    ;                  "you changed the idx 777"
+    ;                  (get (:problems @state/binary-problems) bit-idx)
+    ;                  "-data-bit-pos" bit-idx))
+    (swap! state/binary-problems update-in [:problems problem-id :problem-binary pos-idx]
+           (fn [n]
+             (case n
+               "1" "0"
+               "0" "1"
+               "0"))) ;; default to 0 if the user clicks on the bunny
 
-    (swap! state/binary-problems update-in [:problems game-id :problem-binary]
-           (fn [h]
-             (js/console.log (str "wat-" (nth bit-idx 1)))
-             (assoc h (js/parseInt (nth bit-idx 1)) (if (= bit-val "0") "1" "0"))))
+             ; (js/console.log (str "wat-" (nth bit-idx 1)))
+             ; (assoc h (js/parseInt (nth bit-idx 1)) (if (= bit-val "0") "1" "0"))))
 
-    (if (= (get-in @state/binary-problems [:problems game-id :problem-binary])
-           (get-in @state/binary-problems [:problems game-id :solution]))
-      (do
-        (js/alert (str "winner winner chicken dinner" game-id))
-        (swap! state/binary-problems update-in [:problems] (fn [h] (dissoc h game-id)))
+    (let [app-state @state/binary-problems
+          problem (get-in app-state [:problems problem-id])
+          their-solution (:problem-binary problem)
+          our-solution (:solution problem)]
+      (when (= their-solution our-solution)
+        (js/alert (str "winner winner chicken dinner" problem-id))
+        (swap! state/binary-problems update-in [:problems] (fn [h] (dissoc h problem-id)))
         (js/console.log (str "the board" @state/binary-problems))))))
-    ;; (render)))
 
 (defn click-app-el
   "this function fires when anything inside the app container is clicked"

@@ -1,5 +1,7 @@
 (ns com.github.papz.abinarygame.actions
-  (:require [com.github.papz.abinarygame.state :as state]))
+  (:require [com.github.papz.abinarygame.state :as state]
+            [oops.core :refer [ocall oget]]
+            [goog.functions :as gfunctions]))
 
 (declare level-stepper game-speed)
 
@@ -38,24 +40,30 @@
   []
   (swap! state/binary-problems update-in [:problems] (fn [h] (dissoc h (last (keys h)))))
   (js/alert "Cmoooon, be better.."))
-  
 
-;; question not sure if this is right? use a function to set the level-stepper, should have be set!? or an atom
-;; it's a global var, perhaps inside the state and then access it atomically? not sure how to update this state, perhaps reset!
-(defn begin-game
-  ""
+(def game-running? (atom true))
+
+(defn- on-tick
+  "this function runs continuously"
   []
-  (def level-stepper (js/setInterval
-                      (fn [] (do
-                               (swap! state/binary-problems update :problems conj (generate-problem))
-                               (js/console.log (str "update - " @state/binary-problems))))                            
-                      state/game-speed)))
+  (when @game-running?
+    (swap! state/binary-problems update :problems conj (generate-problem))
+    (js/console.log (str "update - " @state/binary-problems))))
 
-;; Is this the right Event handler to use? do I use closures
+(def init-game-tick!
+  (gfunctions/once
+    (fn []
+      (js/setInterval on-tick state/game-speed))))
+
 (defn pause-game
-  ""
+  "pause the game loop"
   []
-  (.clearInterval js/window level-stepper))
+  (reset! game-running? false))
+
+(defn restart-game!
+  "re-start the game loop"
+  []
+  (reset! game-running? true))
 
 ;; There may be problems https://stackoverflow.com/questions/9939760/how-do-i-convert-an-integer-to-binary-in-javascript
 (defn user-turn
@@ -82,13 +90,14 @@
         (js/console.log (str "the board" @state/binary-problems))))))
     ;; (render)))
 
-(defn update-game
-  ""
-  [e]
-  (let [clicked-button (.getAttribute (aget e "target") "data-game-fn")]
-    (case clicked-button
+(defn click-app-el
+  "this function fires when anything inside the app container is clicked"
+  [js-evt]
+  (let [target-el (oget js-evt "target")
+        game-event (ocall target-el "getAttribute" "data-game-fn")]
+    (case game-event
       "cheat-btn" (cheat)
-      "begin-btn" (begin-game)
+      "begin-btn" (init-game-tick!)
       "pause-btn" (pause-game)
-      "bit-btn" (user-turn (aget e "target")))))
-    ;; (render)))
+      "bit-btn" (user-turn target-el)
+      nil)))

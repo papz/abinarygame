@@ -3,9 +3,14 @@
 {:source-paths ["src"]
  :dependencies [[proto-repl "0.3.1"]
                 [cider/cider-nrepl "0.25.9"]
-                [hiccups "0.3.0"]]
+                [hiccups "0.3.0"]
+                [binaryage/oops "0.7.0"]]
+
  :dev-http {8080 "public/"}
- :builds {:app {:target :browser
-                :output-dir "public/"
-                :asset-path "."
-                :modules {:main {:init-fn com.github.papz.abinarygame.core/main!}}}}}
+
+ :builds
+ {:app {:target :browser
+        :output-dir "public/"
+        :asset-path "."
+        :modules {:main {:init-fn com.github.papz.abinarygame.core/main!}}
+        :devtools {:after-load com.github.papz.abinarygame.core/refresh}}}}

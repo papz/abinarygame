@@ -4,63 +4,41 @@
             [com.github.papz.abinarygame.actions :as actions]
             [com.github.papz.abinarygame.state :as state]
             [goog.events :as events]
+            [goog.functions :as gfunctions]
             [goog.events.EventType]
-            [goog.dom :as dom]))
+            [goog.dom :as dom]
+            [oops.core :refer [ocall oset!]]))
 
+(defn on-refresh
+  "this function is called everytime shadow-cljs does a hot module reload"
+  []
+  (js/console.log "FIXME: make this refresh"))
+  ; (do
+  ;   (main!)))
 
 (def app-el (dom/getElement "app"))
 
- ;; this needs to be decimal
-
-
-;; Todo State game updates
-(defn add-binary-problem [state]
-  ""
-  [])
-
-(def counter (atom 0))
-
-;; (defn solve-problem
-;;   ""
-;;   ([]
-;;    (let [solved-problem (first @binary-problems)]
-;;      (swap! @binary-problems (dissoc solved-problem))))
-;;   ([problem-row]))
-
-;; (let [bin-pos [:128 :64 :32 :16 :8 :4 :2 :1]]
-
-(defn step-binary-game
-  ""
-  [])
-
-;; use? goog.events.EventType.CLICK
-(defonce init-listeners!
-  (do
-    (events/listen app-el "click" actions/update-game)
-    (add-watch state/binary-problems :grid (fn [key, ref, old, new]
-                                             (if (not= old new)
-                                              (render))))
-    (actions/begin-game)))
-
-;; should pass in state?
-(defn render
-  ""
+(defn render!
+  "update the innerHTML of the application"
   []
-  ;; 1. mount app on to HTML - could be better way
-  (set! (.-innerHTML (.getElementById js/document "app"))
-        (view/app-template @state/binary-problems)))
+  (oset! app-el "innerHTML" (view/app-template @state/binary-problems)))
 
-(defn main!
+(def init-listeners!
+  (gfunctions/once
+    (fn []
+      (events/listen app-el "click" actions/click-app-el)
+      (actions/init-game-tick!))))
+
+(def main!
   "The entry point to whack your fruit"
-  []
-  (render))
+  (gfunctions/once
+    (fn []
+     (js/console.log "initialize the app!")
+     (add-watch state/binary-problems :render (fn [_key _ref old new]
+                                                (when (not= old new)
+                                                 (render!))))
+     (init-listeners!)
+     (actions/init-game-tick!)
+     (render!))))
 
-;; add Listeners - defined once
-
-;; then add a watch
-
-(defn ^:dev/after-load start
-  ""
-  []
-  (do
-    (main!)))
+(ocall js/window "addEventListener" "load" main!)

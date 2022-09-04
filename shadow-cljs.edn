@@ -2,7 +2,7 @@
 
 {:source-paths ["src"]
  :dependencies [[proto-repl "0.3.1"]
-                [cider/cider-nrepl "0.25.9"]
+                [cider/cider-nrepl "0.28.2"]
                 [hiccups "0.3.0"]
                 [binaryage/oops "0.7.0"]]
 
